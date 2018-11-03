@@ -7,7 +7,7 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    layout: 'simple-layout'
+    layout: 'app-layout'
   },
   mutations: {
     SET_LAYOUT (state, payload) {

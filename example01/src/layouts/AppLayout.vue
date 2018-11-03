@@ -7,51 +7,49 @@
       app
     >
       <v-list dense>
-        <v-list-tile @click="">
-          <v-list-tile-action>
-            <v-icon>dashboard</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Dashboard</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="">
-          <v-list-tile-action>
-            <v-icon>settings</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Settings</v-list-tile-title>
-          </v-list-tile-content>
+        <v-list-tile
+            v-for="item in sidebarmenu"
+            :key="item"
+            :to="item.link"
+            @click="">
+              <v-list-tile-action>
+                <v-icon>{{item.icon}}</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title v-text="item.menu"></v-list-tile-title>
+              </v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left color="indigo" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Application</v-toolbar-title>
+      <v-spacer></v-spacer>
+
+      <v-btn icon>
+        <v-icon>notifications</v-icon>
+      </v-btn>
+
+      <v-menu offset-y fixed>
+        <v-btn icon
+          slot="activator">
+          <v-icon>more_vert</v-icon>
+        </v-btn>
+        <v-list>
+          <v-list-tile
+            v-for="item in items"
+            :key="item"
+            @click="">
+              <v-icon>{{item.icon}}&nbsp;&nbsp;&nbsp;</v-icon> 
+              <v-list-tile-title v-text="item.menu">&nbsp;&nbsp;&nbsp;</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
         <v-layout justify-center align-center>
-          <v-flex shrink>
-            <v-tooltip right>
-              <v-btn
-                slot="activator"
-                :href="source"
-                icon
-                large
-                target="_blank"
-              >
-                <v-icon large>code</v-icon>
-              </v-btn>
-              <span>Source</span>
-            </v-tooltip>
-            <v-tooltip right>
-              <v-btn slot="activator" icon large href="https://codepen.io/johnjleider/pen/qxQWda" target="_blank">
-                <v-icon large>mdi-codepen</v-icon>
-              </v-btn>
-              <span>Codepen</span>
-            </v-tooltip>
-          </v-flex>
+          <router-view></router-view>
         </v-layout>
       </v-container>
     </v-content>
@@ -64,7 +62,30 @@
 <script>
   export default {
     data: () => ({
-      drawer: null
+      drawer: null,
+      items: [
+        {
+          menu: 'Profile',
+          icon: 'account_circle'
+        },
+        {
+          menu: 'Settings',
+          icon: 'settings'
+        },
+        {
+          menu: 'Logout',
+          icon: 'exit_to_app'
+        }
+      ],
+      sidebarmenu: [
+        { menu: 'Dashboard', icon: 'dashboard', link: '/' },
+        { menu: 'Customer', icon: 'dashboard', link: '/customer' },
+        { menu: 'Contractor', icon: 'dashboard', link: '/contractor' },
+        { menu: 'Supplier', icon: 'dashboard', link: '/supplier' },
+        { menu: 'User', icon: 'dashboard', link: '/user' },
+        { menu: 'Industry', icon: 'settings', link: '/industry' },
+        { menu: 'Settings', icon: 'settings', link: '/setting' }
+      ]
     }),
     props: {
       source: String
